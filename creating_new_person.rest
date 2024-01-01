@@ -1,7 +1,7 @@
-POST https://phonebookback-bwqs.onrender.com/api/persons
+PUT https://phonebookback-bwqs.onrender.com/api/persons
 Content-Type: application/json
 
 {
     "name": "abdul",
-    "number": "123"
+    "number": "12345"
 }
