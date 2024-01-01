@@ -97,7 +97,7 @@ const generateId = () => {
   return maxId + 1
 }
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
   if (!body.name) {
@@ -105,7 +105,7 @@ app.post('/api/persons', (request, response) => {
       error: 'name missing' 
     })
   }
-  else if (persons.some(person => person.name === body.name)) {
+  else if (Person.findOne({name: body.name})) {
     return response.status(400).json({ 
         error: 'name is already in phone book' 
       })
@@ -125,15 +125,16 @@ app.post('/api/persons', (request, response) => {
   person.save().then(savedPerson => {
     response.json(savedPerson)
   })
+  .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
   const {name, number} = request.body
 
-  const person = {
-    name: body.name,
-    number: body.number,
-  }
+  // const person = {
+  //   name: body.name,
+  //   number: body.number,
+  // }
 
   Person.findByIdAndUpdate(request.params.id, {name, number}, { new: true, runValidators: true, context: 'query' })
     .then(updatedNote => {
